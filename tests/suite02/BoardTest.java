@@ -76,7 +76,7 @@ public class BoardTest {
 		assertSame(BoardTile.MOUNTAIN, board2.at(pf.pos("b3")));
 		assertSame(BoardTile.EMPTY, board2.at(pf.pos("c3")));
 			
-		//Test that the emptyBoard stays empty and independent
+		//Test that the emptyBoard stays empty end independent 
 		//of the new board.
 		assertSame(BoardTile.EMPTY, emptyBoard.at(pf.pos("a1")));
 		assertSame(BoardTile.EMPTY, emptyBoard.at(pf.pos("b1")));

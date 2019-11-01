@@ -1,7 +1,10 @@
 package suite02;
 
 import org.junit.Test;
-import thedrake.*;
+import thedrake.PlayingSide;
+import thedrake.StandardDrakeSetup;
+import thedrake.TroopFace;
+import thedrake.TroopTile;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -21,11 +24,10 @@ public class TroopTileTest {
 	
 	@Test
 	public void behaviour() {
-		Troop monk = new Troop("Monk", new Offset2D(1, 1));
-		Troop drake = new Troop("Drake");
+		StandardDrakeSetup setup = new StandardDrakeSetup();
 		
-		TroopTile tile1 = new TroopTile(monk, PlayingSide.BLUE, TroopFace.AVERS);
-		TroopTile tile2 = new TroopTile(drake, PlayingSide.ORANGE, TroopFace.REVERS);
+		TroopTile tile1 = new TroopTile(setup.MONK, PlayingSide.BLUE, TroopFace.AVERS);
+		TroopTile tile2 = new TroopTile(setup.DRAKE, PlayingSide.ORANGE, TroopFace.REVERS);
 		
 		assertFalse(tile1.canStepOn());
 		assertFalse(tile2.canStepOn());
@@ -33,8 +35,8 @@ public class TroopTileTest {
 		assertTrue(tile1.hasTroop());
 		assertTrue(tile2.hasTroop());
 			
-		assertSame(monk, tile1.troop());
-		assertSame(drake, tile2.troop());
+		assertSame(setup.MONK, tile1.troop());
+		assertSame(setup.DRAKE, tile2.troop());
 		
 		assertSame(PlayingSide.BLUE, tile1.side());
 		assertSame(PlayingSide.ORANGE, tile2.side());

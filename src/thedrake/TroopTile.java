@@ -1,5 +1,8 @@
 package thedrake;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class TroopTile implements Tile {
 
     private Troop troop;
@@ -38,6 +41,20 @@ public final class TroopTile implements Tile {
     @Override
     public boolean hasTroop(){
         return true;
+    }
+
+    @Override
+    public List<Move> movesFrom(BoardPos pos, GameState state) {
+
+        List<TroopAction> list = new ArrayList<>(troop.actions(face));
+
+        List<Move> moves = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            moves.addAll(list.get(i).movesFrom(pos, side, state));
+        }
+
+        return moves;
+
     }
 
     // Vytvoří novou dlaždici, s jednotkou otočenou na opačnou stranu
