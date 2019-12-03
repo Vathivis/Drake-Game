@@ -64,12 +64,17 @@ public class GameState implements JSONSerializable{
 	// Musí tedy zkontrolovat, jestli na této pozici není jednotka z
 	// armády nějakého hráče a pokud ne, vrátí dlaždici z objektu board
 	public Tile tileAt(BoardPos pos) {
-		Tile tile1 = blueArmy.boardTroops().at(pos).get();
-		if(tile1.hasTroop())
-			return tile1;
-		Tile tile2 = orangeArmy.boardTroops().at(pos).get();
-		if(tile2.hasTroop())
-			return tile2;
+		if(blueArmy.boardTroops().at(pos).isPresent()) {
+			Tile tile1 = blueArmy.boardTroops().at(pos).get();
+			if (tile1.hasTroop())
+				return tile1;
+		}
+
+		if(orangeArmy.boardTroops().at(pos).isPresent()) {
+			Tile tile2 = orangeArmy.boardTroops().at(pos).get();
+			if (tile2.hasTroop())
+				return tile2;
+		}
 
 		return board.at(pos);
 	}
