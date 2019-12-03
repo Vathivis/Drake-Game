@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Board {
 
 	private final int dimension;
-	//private Vector<Vector<BoardTile>> tiles;
 	private final ArrayList<ArrayList<BoardTile>> tiles = new ArrayList<>();
 
 	// Konstruktor. Vytvoří čtvercovou hrací desku zadaného rozměru, kde všechny dlaždice jsou prázdné, tedy BoardTile.EMPTY
@@ -33,6 +32,7 @@ public class Board {
 	public Board withTiles(TileAt ...ats) {
 		Board updatedBoard = new Board(dimension);
 
+
 		for (int i = 0; i < dimension; i++) {
 			for (int j = 0; j < dimension; j++) {
 				updatedBoard.tiles.get(i).set(j, tiles.get(i).get(j));
@@ -54,7 +54,7 @@ public class Board {
 	public static class TileAt {
 		public final BoardPos pos;
 		public final BoardTile tile;
-		
+
 		public TileAt(BoardPos pos, BoardTile tile) {
 			this.pos = pos;
 			this.tile = tile;

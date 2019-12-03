@@ -58,6 +58,10 @@ public class BoardTroops {
 		return troopMap.keySet();
 	}
 
+	public Map<BoardPos, TroopTile> getTroopMap() {
+		return troopMap;
+	}
+
 	public BoardTroops placeTroop(Troop troop, BoardPos target) {
 
 		int updatedGuards = guards;

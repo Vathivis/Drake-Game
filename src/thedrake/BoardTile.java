@@ -20,6 +20,11 @@ public interface BoardTile extends Tile {
 		public List<Move> movesFrom(BoardPos pos, GameState state) {
 			return Collections.emptyList();
 		}
+
+		@Override
+		public String toString() {
+			return "empty";
+		}
 	};
 
 	public static final BoardTile MOUNTAIN = new BoardTile() {
@@ -36,6 +41,11 @@ public interface BoardTile extends Tile {
 		@Override
 		public List<Move> movesFrom(BoardPos pos, GameState state) {
 			return Collections.emptyList();
+		}
+
+		@Override
+		public String toString() {
+			return "mountain";
 		}
 	};
 }

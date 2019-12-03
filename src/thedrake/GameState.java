@@ -1,8 +1,8 @@
 package thedrake;
 
-import java.util.Set;
+import java.io.PrintWriter;
 
-public class GameState{
+public class GameState implements JSONSerializable{
 	private final Board board;
 	private final PlayingSide sideOnTurn;
 	private final Army blueArmy;
@@ -155,16 +155,6 @@ public class GameState{
 		if(result != GameResult.IN_PLAY || armyOnTurn().stack().isEmpty() || !canStepTo(target))
 			return false;
 
-		if(armyOnTurn().boardTroops().isLeaderPlaced()) {
-			Set<BoardPos> troops = armyOnTurn().boardTroops().troopPositions();
-			for (BoardPos troop : troops) {
-				if (troop.isNextTo(target)) {
-					return true;
-				}
-			}
-			return false;
-		}
-
 		return true;
 	}
 	
@@ -240,5 +230,102 @@ public class GameState{
 		}
 		
 		return new GameState(board, armyNotOnTurn, armyOnTurn, PlayingSide.ORANGE, result); 
+	}
+
+	@Override
+	public void toJSON(PrintWriter writer) {
+
+		writer.printf("{\"result\":\"%s\",\"board\":{\"dimension\":%d,\"tiles\":[", result, board.dimension());
+		//tiles
+		for (int i = 0; i < board.dimension(); i++) {
+			for (int j = 0; j < board.dimension(); j++) {
+				if(!(i == board.dimension() - 1 && j == board.dimension() - 1)) {
+					writer.printf("\"%s\",", board.at(new BoardPos(board.dimension(), j, i)).toString());
+				}
+				else{
+					writer.printf("\"%s\"", board.at(new BoardPos(board.dimension(), j, i)).toString());
+				}
+			}
+		}
+
+		writer.printf("]},\"blueArmy\":{\"boardTroops\":{\"side\":\"BLUE\",\"leaderPosition\":\"%s\",\"guards\":%d,\"troopMap\":{", blueArmy.boardTroops().leaderPosition().toString(), blueArmy.boardTroops().guards());
+		//troopmap blue
+		int counter = 0;
+		for (int i = 0; i < board.dimension(); i++) {
+			for (int j = 0; j < board.dimension(); j++) {
+				BoardPos boardPos = new BoardPos(board.dimension(), i, j);
+				if(blueArmy.boardTroops().troopPositions().contains(boardPos) && counter < blueArmy.boardTroops().troopPositions().size() - 1){
+					TroopTile troopTile = blueArmy.boardTroops().at(boardPos).get();
+					writer.printf("\"%s%s\":{\"troop\":\"%s\",\"side\":\"BLUE\",\"face\":\"%s\"},", boardPos.column(), boardPos.row(), troopTile.troop().name(), troopTile.face());
+					counter++;
+				}
+				else if (blueArmy.boardTroops().troopPositions().contains(boardPos)){
+					TroopTile troopTile = blueArmy.boardTroops().at(boardPos).get();
+					writer.printf("\"%s%s\":{\"troop\":\"%s\",\"side\":\"BLUE\",\"face\":\"%s\"}", boardPos.column(), boardPos.row(), troopTile.troop().name(), troopTile.face());
+				}
+			}
+		}
+
+		writer.printf("}},\"stack\":[");
+		//stack blue
+		for (int i = 0; i < blueArmy.stack().size(); i++) {
+			if(i == blueArmy.stack().size() - 1) {
+				writer.printf("\"%s\"", blueArmy.stack().get(i).name());
+				continue;
+			}
+			writer.printf("\"%s\",", blueArmy.stack().get(i).name());
+		}
+
+		writer.printf("],\"captured\":[");
+		//captured blue
+		for (int i = 0; i < blueArmy.captured().size(); i++) {
+			if(i == blueArmy.captured().size() - 1) {
+				writer.printf("\"%s\"", blueArmy.captured().get(i).name());
+				continue;
+			}
+			writer.printf("\"%s\",", blueArmy.captured().get(i).name());
+		}
+
+		writer.printf("]},\"orangeArmy\":{\"boardTroops\":{\"side\":\"ORANGE\",\"leaderPosition\":\"%s\",\"guards\":%d,\"troopMap\":{", orangeArmy.boardTroops().leaderPosition().toString(), orangeArmy.boardTroops().guards());
+		//troopmap orange
+		counter = 0;
+		for (int i = 0; i < board.dimension(); i++) {
+			for (int j = 0; j < board.dimension(); j++) {
+				BoardPos boardPos = new BoardPos(board.dimension(), i, j);
+				if(orangeArmy.boardTroops().troopPositions().contains(boardPos) && counter < orangeArmy.boardTroops().troopPositions().size() - 1){
+					TroopTile troopTile = orangeArmy.boardTroops().at(boardPos).get();
+					writer.printf("\"%s%s\":{\"troop\":\"%s\",\"side\":\"ORANGE\",\"face\":\"%s\"},", boardPos.column(), boardPos.row(), troopTile.troop().name(), troopTile.face());
+					counter++;
+				}
+				else if (orangeArmy.boardTroops().troopPositions().contains(boardPos)){
+					TroopTile troopTile = orangeArmy.boardTroops().at(boardPos).get();
+					writer.printf("\"%s%s\":{\"troop\":\"%s\",\"side\":\"ORANGE\",\"face\":\"%s\"}", boardPos.column(), boardPos.row(), troopTile.troop().name(), troopTile.face());
+				}
+			}
+		}
+
+		writer.printf("}},\"stack\":[");
+		//stack orange
+		for (int i = 0; i < orangeArmy.stack().size(); i++) {
+			if(i == orangeArmy.stack().size() - 1) {
+				writer.printf("\"%s\"", orangeArmy.stack().get(i).name());
+				continue;
+			}
+			writer.printf("\"%s\",", orangeArmy.stack().get(i).name());
+		}
+		writer.printf("],\"captured\":[");
+		//captured orange
+		for (int i = 0; i < orangeArmy.captured().size(); i++) {
+			if(i == orangeArmy.captured().size() - 1) {
+				writer.printf("\"%s\"", orangeArmy.captured().get(i).name());
+				continue;
+			}
+			writer.printf("\"%s\",", orangeArmy.captured().get(i).name());
+		}
+
+		writer.printf("]}}");
+
+
+		writer.flush();
 	}
 }
