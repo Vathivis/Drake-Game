@@ -146,6 +146,9 @@ public class GameState implements JSONSerializable{
 	// se vkládání jednotek řídí jinými pravidly než ve střední hře.
 	public boolean canPlaceFromStack(TilePos target) {
 
+		if(target == TilePos.OFF_BOARD)
+			return false;
+
 		if(armyOnTurn().boardTroops().isPlacingGuards()){
 			if(armyOnTurn() == blueArmy && target.row() > 2)
 				return false;

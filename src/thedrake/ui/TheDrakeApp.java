@@ -25,12 +25,12 @@ public class TheDrakeApp extends Application {
         PositionFactory positionFactory = board.positionFactory();
         board = board.withTiles(new Board.TileAt(positionFactory.pos(1, 1), BoardTile.MOUNTAIN));
         return new StandardDrakeSetup().startState(board)
-            .placeFromStack(positionFactory.pos(0, 0))
+            /*.placeFromStack(positionFactory.pos(0, 0))
             .placeFromStack(positionFactory.pos(3, 3))
             .placeFromStack(positionFactory.pos(0, 1))
             .placeFromStack(positionFactory.pos(3, 2))
             .placeFromStack(positionFactory.pos(1, 0))
-            .placeFromStack(positionFactory.pos(2, 3));
+            .placeFromStack(positionFactory.pos(2, 3))*/;
     }
 
 }

@@ -17,6 +17,10 @@ public class Controller implements Initializable {
 		Platform.exit();
 	}
 
+	public void players2() throws Exception {
+
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources){
 

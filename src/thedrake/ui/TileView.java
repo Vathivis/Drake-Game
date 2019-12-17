@@ -24,10 +24,29 @@ public class TileView extends Pane {
 
     private final ImageView moveImage;
 
+    private Boolean inStack;
+
     public TileView(BoardPos boardPos, Tile tile, TileViewContext tileViewContext) {
         this.boardPos = boardPos;
         this.tile = tile;
         this.tileViewContext = tileViewContext;
+        this.inStack = false;
+
+        setPrefSize(100, 100);
+        update();
+
+        setOnMouseClicked(e -> onClick());
+
+        moveImage = new ImageView(getClass().getResource("/assets/move.png").toString());
+        moveImage.setVisible(false);
+        getChildren().add(moveImage);
+    }
+
+    public TileView(BoardPos boardPos, Tile tile, TileViewContext tileViewContext, Boolean inStack) {
+        this.boardPos = boardPos;
+        this.tile = tile;
+        this.tileViewContext = tileViewContext;
+        this.inStack = inStack;
 
         setPrefSize(100, 100);
         update();
@@ -50,6 +69,18 @@ public class TileView extends Pane {
     public void select() {
         setBorder(selectBorder);
         tileViewContext.tileViewSelected(this);
+    }
+
+    public Boolean getInStack() {
+        return inStack;
+    }
+
+    public void setInStack(Boolean inStack) {
+        this.inStack = inStack;
+    }
+
+    public Tile getTile() {
+        return tile;
     }
 
     public void unselect() {

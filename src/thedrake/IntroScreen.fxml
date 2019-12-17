@@ -11,7 +11,7 @@
          <image>
             <Image url="@theDrakeLogo.PNG" />
          </image></ImageView>
-      <Button id="Button2Players" layoutX="573.0" layoutY="390.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="135.0" style="-fx-background-color: ORANGE;" text="Hra dvou hráčů">
+      <Button id="Button2Players" fx:id="Button2Players" layoutX="573.0" layoutY="390.0" mnemonicParsing="false" onAction="#players2" prefHeight="31.0" prefWidth="135.0" style="-fx-background-color: ORANGE;" text="Hra dvou hráčů">
          <font>
             <Font name="Book Antiqua" size="15.0" />
          </font></Button>
